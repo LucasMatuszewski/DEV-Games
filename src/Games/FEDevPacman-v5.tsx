@@ -34,8 +34,8 @@ const codeLines = [
   'export default App;',
 ];
 
-const CELL_SIZE = 15; // Reduced cell size
-const GRID_WIDTH = Math.max(...codeLines.map((line) => line.length)) * 2 + 2; // Doubled grid width
+const CELL_SIZE = 20; // Reduced cell size
+const GRID_WIDTH = Math.max(...codeLines.map((line) => line.length)) + 2;
 const GRID_HEIGHT = codeLines.length + 2;
 
 const PLAYER = '🧑‍💻'; // Developer emoji
@@ -46,11 +46,12 @@ const pointTypes = [
   { name: 'A11y', points: 9 },
   { name: 'O(1)', points: 8 },
   { name: 'TDD', points: 7 },
-  { name: 'SEO', points: 6 },
-  { name: 'KISS', points: 5 },
+  { name: 'KISS', points: 6 },
+  { name: 'YAGNI', points: 5 },
   { name: 'DRY', points: 4 },
   { name: 'A/B', points: 3 },
   { name: 'TS', points: 2 },
+  { name: 'SEO', points: 1 },
 ].sort((a, b) => b.points - a.points);
 
 const bugTypes = [
@@ -58,21 +59,26 @@ const bugTypes = [
   { name: '💣', color: '#FF3333' },
   { name: '🔥', color: '#FF6666' },
   { name: '⚠️', color: '#FF9999' },
-  { name: '❌', color: '#FFCCCC' },
+  // { name: '❌', color: '#FFCCCC' },
+  // { name: '💾', color: '#990000' },
+  { name: 'Error', color: '#990000' },
   { name: '404', color: '#CC0000' },
-  { name: '💾', color: '#990000' },
+  { name: 'O(n²)', color: '#FF6666' },
+  { name: 'any', color: '#FF9999' },
+  { name: 'NaN', color: '#FFCCCC' },
 ];
+const BUGS_NUMBER = 20;
 
 const initialGrid = Array(GRID_HEIGHT)
   .fill(null)
   .map(() => Array(GRID_WIDTH).fill(EMPTY));
 
-// Fill grid with code, adding padding and doubling characters
+// Fill grid with code, adding padding
 codeLines.forEach((line, y) => {
-  const paddedLine = ' ' + line.padEnd(GRID_WIDTH / 2 - 2, ' ') + ' ';
+  // Add spaces, 1 before code, and many after the code to the end on the grid
+  const paddedLine = ' ' + line.padEnd(GRID_WIDTH - 2, ' ') + ' ';
   paddedLine.split('').forEach((char, x) => {
-    initialGrid[y + 1][x * 2] = char;
-    initialGrid[y + 1][x * 2 + 1] = char;
+    initialGrid[y + 1][x] = char;
   });
 });
 
@@ -91,7 +97,7 @@ const getRandomPointType = () => {
 };
 
 // Function to check if a cell is suitable for placing a point or bug
-const isSuitableCell = (grid, x, y) => {
+const isSuitableCell = (grid: string[][], x: number, y: number) => {
   if (grid[y][x] !== EMPTY) return false;
 
   // Check surrounding cells
@@ -123,7 +129,7 @@ const FEDevPacman = () => {
   const [grid, setGrid] = useState(initialGrid);
   const [playerPos, setPlayerPos] = useState({ x: 1, y: 1 });
   const [bugs, setBugs] = useState(
-    Array(10)
+    Array(BUGS_NUMBER)
       .fill(null)
       .map(() => {
         let x, y;
@@ -139,13 +145,14 @@ const FEDevPacman = () => {
       })
   );
   const [score, setScore] = useState(0);
+  const [gameIntro, setGameIntro] = useState(true);
   const [gameOver, setGameOver] = useState(false);
   const [highScore, setHighScore] = useState(
     parseInt(localStorage.getItem('highScore') || '0')
   );
 
   const movePlayer = useCallback(
-    (dx, dy) => {
+    (dx: number, dy: number) => {
       if (gameOver) return;
 
       setPlayerPos((prev) => {
@@ -215,7 +222,7 @@ const FEDevPacman = () => {
   }, [gameOver, grid]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowUp':
           movePlayer(0, -1);
@@ -252,18 +259,20 @@ const FEDevPacman = () => {
     }
   }, [bugs, playerPos, score, highScore]);
 
-  const getCellContent = (x, y) => {
+  const getCellContent = (x: number, y: number) => {
     if (x === playerPos.x && y === playerPos.y) return PLAYER;
     const bug = bugs.find((bug) => bug.x === x && bug.y === y);
     if (bug) return bug.type.name;
     return grid[y][x];
   };
 
-  const getCellColor = (content) => {
+  const getCellColor = (content: string) => {
     if (content === PLAYER) return 'yellow';
     const pointType = pointTypes.find((pt) => pt.name === content);
     if (pointType) {
-      const saturation = 50 + (pointType.points / 10) * 50;
+      // const saturation = 50 + (pointType.points / 10) * 50;
+      // points are from 2 to 10. Make saturation much lower for small points and much higher for hight points (up to 100%)
+      const saturation = pointType.points * 10;
       return `hsl(120, ${saturation}%, 50%)`;
     }
     const bugType = bugTypes.find((bt) => bt.name === content);
@@ -295,20 +304,21 @@ const FEDevPacman = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-white bg-gray-900">
+    <div className="flex flex-col items-center justify-center h-screen text-white">
       <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
         <div className="flex justify-between w-full mb-4">
           <h1 className="text-3xl font-bold">FE Dev Pac-Man</h1>
-          <div className="text-2xl">Score: {score}</div>
+          <div className="text-2xl"> Score: {score}</div>
+          <div className="text-2xl"> Your record: {highScore}</div>
         </div>
-        <div className="mb-4">High Score: {highScore}</div>
+
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: `repeat(${GRID_WIDTH}, ${CELL_SIZE}px)`,
             gap: '1px',
           }}
-          className="bg-gray-700 p-2 rounded"
+          // className="bg-gray-700 p-2 rounded"
         >
           {grid.map((row, y) =>
             row.map((_, x) => {
@@ -328,10 +338,10 @@ const FEDevPacman = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: isCode ? '10px' : '12px',
+                    fontSize: isCode ? '13px' : '15px',
                     color: isCode ? '#94a3b8' : getCellColor(content),
                     fontWeight: isCode ? 'bold' : 'normal',
-                    border: content === PLAYER ? '1px solid white' : 'none',
+                    // border: content === PLAYER ? '1px solid white' : 'none',
                     borderRadius: '2px',
                     transition: 'all 0.1s ease-in-out',
                   }}
@@ -345,7 +355,7 @@ const FEDevPacman = () => {
         {gameOver && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-gray-800 p-8 rounded-lg text-center">
-              <h2 className="text-3xl mb-4">Game Over!</h2>
+              <h2 className="text-3xl mb-4 text-red-800">Game Over!</h2>
               <p className="text-xl mb-4">Final Score: {score}</p>
               <button
                 onClick={restartGame}
@@ -356,11 +366,30 @@ const FEDevPacman = () => {
             </div>
           </div>
         )}
-      </div>
-      <div className="mt-4 text-center">
-        <h2 className="text-xl mb-2">How to Play</h2>
-        <p>Use arrow keys to move the developer {PLAYER} and collect good practices.</p>
-        <p>Avoid bugs {bugTypes.map(bug => bug.name).join(' ')} at all costs!</p>
+        {gameIntro && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-lg bg-gray-800 p-8 rounded-lg text-center">
+              <h2 className="text-3xl mb-2">How to Play</h2>
+              <p>
+                Use arrow keys to move the developer {PLAYER} and collect good
+                practices.
+              </p>
+              <p>
+                Avoid bugs{' '}
+                <span className="text-red-500">
+                  {bugTypes.map((bug) => bug.name).join(' ')}
+                </span>{' '}
+                at all costs!
+              </p>
+              <button
+                onClick={() => setGameIntro(false)}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-4 py-2 px-4 rounded transition duration-200"
+              >
+                Start the game
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
