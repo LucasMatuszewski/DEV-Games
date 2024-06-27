@@ -38,19 +38,19 @@ const CELL_SIZE = 23;
 const GRID_WIDTH = Math.max(...codeLines.map((line) => line.length)) + 2;
 const GRID_HEIGHT = codeLines.length + 2;
 
-const PLAYER = 'D';
+const PLAYER = 'Dev';
 const EMPTY = ' ';
 
 const pointTypes = [
-  { name: 'A11y', points: 10 },
-  { name: 'UX', points: 9 },
-  { name: 'TS', points: 8 },
+  { name: 'UX', points: 10 },
+  { name: 'A11y', points: 9 },
+  { name: 'O(1)', points: 8 },
   { name: 'TDD', points: 7 },
   { name: 'SEO', points: 6 },
   { name: 'KISS', points: 5 },
   { name: 'DRY', points: 4 },
   { name: 'A/B', points: 3 },
-  { name: 'O(1)', points: 2 },
+  { name: 'TS', points: 2 },
 ].sort((a, b) => b.points - a.points);
 
 const bugTypes = [
@@ -264,54 +264,56 @@ const FEDevPacman = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
-      <h1 className="text-2xl mb-4">FE Dev Pac-Man</h1>
-      <div className="mb-4">Score: {score}</div>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: `repeat(${GRID_WIDTH}, ${CELL_SIZE}px)`,
-          gap: '1px',
-        }}
-      >
-        {grid.map((row, y) =>
-          row.map((_, x) => {
-            const content = getCellContent(x, y);
-            const isCode =
-              content !== EMPTY &&
-              !pointTypes.some((pt) => pt.name === content) &&
-              !bugTypes.some((bt) => bt.name === content) &&
-              content !== PLAYER;
-            return (
-              <div
-                key={`${x}-${y}`}
-                style={{
-                  width: CELL_SIZE,
-                  height: CELL_SIZE,
-                  backgroundColor: getCellColor(content),
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: isCode ? '12px' : '10px',
-                  color: isCode
-                    ? '#ccc'
-                    : content === PLAYER
-                    ? 'black'
-                    : 'inherit',
-                  fontWeight: isCode ? 'bold' : 'normal',
-                }}
-              >
-                {content}
-              </div>
-            );
-          })
+    <div className="flex flex-col items-center justify-center h-screen text-white">
+      <div className="bg-gray-900 p-2">
+        <div className="flex justify-between w-full mb-2">
+          <h1 className="text-2xl">FE Dev Pac-Man</h1>
+          <div className="text-2xl">Score: {score}</div>
+        </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${GRID_WIDTH}, ${CELL_SIZE}px)`,
+            gap: '1px',
+          }}
+        >
+          {grid.map((row, y) =>
+            row.map((_, x) => {
+              const content = getCellContent(x, y);
+              const isCode =
+                content !== EMPTY &&
+                !pointTypes.some((pt) => pt.name === content) &&
+                !bugTypes.some((bt) => bt.name === content) &&
+                content !== PLAYER;
+              return (
+                <div
+                  key={`${x}-${y}`}
+                  style={{
+                    width: CELL_SIZE,
+                    height: CELL_SIZE,
+                    backgroundColor: 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: isCode || content === PLAYER ? '20px' : '15px',
+                    color: isCode ? '#ccc' : getCellColor(content),
+                    fontWeight: isCode ? 'bold' : 'normal',
+                    border: content === PLAYER ? '1px solid white' : 'none',
+                    borderRadius: '50%',
+                  }}
+                >
+                  {content}
+                </div>
+              );
+            })
+          )}
+        </div>
+        {gameOver && (
+          <div className="mt-4 text-xl text-red-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            Game Over!
+          </div>
         )}
       </div>
-      {gameOver && (
-        <div className="mt-4 text-xl text-red-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          Game Over!
-        </div>
-      )}
     </div>
   );
 };
