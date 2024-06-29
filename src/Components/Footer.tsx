@@ -14,6 +14,13 @@ function Footer() {
           X-Twitter
         </a>{' '}
         <a
+          href="https://www.linkedin.com/in/lukaszmatuszewski/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Linkedin
+        </a>{' '}
+        <a
           href="https://github.com/LucasMatuszewski/DEV-Games"
           target="_blank"
           rel="noopener noreferrer"
