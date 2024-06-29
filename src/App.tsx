@@ -7,7 +7,7 @@ import './App.css';
 const DynamicGame = () => {
   const { id } = useParams();
   const GameComponent = lazy(() =>
-    import(`./Games/${id}`).catch(() => import('./Games/FEDevPacman1'))
+    import(`./Games/${id}`).catch(() => import('./Games/FEDevPacman-v5'))
   ); // Fallback to a default component if the import fails;
   return (
     <Suspense fallback={<div>Loading...</div>}>
