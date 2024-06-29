@@ -12,7 +12,7 @@ const codeLines = [
   '  const [count, setCount] = useState(0);',
   '',
   '  useEffect(() => {',
-  "    document.title = `${name}'s App`;",
+  "    document.title = name + ' App';",
   '  }, [name]);',
   '',
   '  const handleClick = () => {',
