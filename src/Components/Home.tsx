@@ -1,6 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import gamesList from './gamesList.json';
+import gamesList from '../gamesList.json';
+// import spaceInvader from '../public/space-invader.svg'; // Adjust the path as necessary
 
 const games = gamesList || [
   'FEDevPacman1',
@@ -9,8 +9,13 @@ const games = gamesList || [
 
 const Home = () => {
   return (
-    <div>
-      <h1>Game Menu</h1>
+    <div className="home-container">
+      <img
+        src="/DEV-Games/space-invader.svg"
+        alt="Space Invader"
+        className="space-invader-icon"
+      />
+      <h1>Dev Games</h1>
       <ul>
         {games.map((game) => (
           <li key={game}>

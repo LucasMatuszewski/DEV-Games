@@ -1,7 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, useParams, Link } from 'react-router-dom';
 
-import Home from './Home';
+import Home from './Components/Home';
+import Footer from './Components/Footer';
 import './App.css';
 
 const DynamicGame = () => {
@@ -12,7 +13,7 @@ const DynamicGame = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Link to="/" className="App-link">
-        Back to Home
+        &lt; Home
       </Link>
       <GameComponent />
     </Suspense>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/games/:id" element={<DynamicGame />} />
         </Routes>
       </header>
+      <Footer />
     </div>
   );
 }

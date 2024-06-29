@@ -11,6 +11,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: 'Press Start 2P', sans-serif; /* Retro Atari style font */
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
