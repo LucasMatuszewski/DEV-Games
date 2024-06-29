@@ -62,7 +62,7 @@ const pointTypes = [
     points: 8,
     title: 'Constant Time Complexity',
     description:
-      'Optimizing algorithms to run in constant time or linear time. In Big O notation.',
+      'Optimizing algorithms to run in constant time O(1) or at list linear time O(n). In Big O notation.',
   },
   {
     name: 'TDD',
@@ -423,7 +423,9 @@ const FEDevPacman = () => {
       return (
         <span
           // TODO: create a custom tooltip
-          title={`${pointType.title} - ${pointType.description}`}
+          title={`${pointType.title} - ${pointType.description} (${
+            pointType.points
+          } point${pointType.points > 1 ? 's' : ''} :)`}
           style={{ cursor: 'help' }}
         >
           {content}
