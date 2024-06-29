@@ -1,0 +1,22 @@
+.space-invader-icon {
+  height: 100px;
+  display: block;
+  margin: 0 auto 20px;
+  animation: levitate 3s ease-in-out infinite;
+}
+
+@keyframes levitate {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(5px, -10px);
+  }
+  50% {
+    transform: translate(0, -20px);
+  }
+  75% {
+    transform: translate(-5px, -10px);
+  }
+}

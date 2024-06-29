@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import gamesList from '../gamesList.json';
-// import spaceInvader from '../public/space-invader.svg'; // Adjust the path as necessary
+import './Home.css';
 
 const games = gamesList || [
   'FEDevPacman1',
