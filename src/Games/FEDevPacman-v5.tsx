@@ -150,6 +150,13 @@ const pointTypes = [
   //   description: 'A design pattern for separating concerns in an application.',
   // },
   {
+    name: 'SemVer',
+    points: 3,
+    title: 'Semantic Versioning',
+    description:
+      'A versioning scheme for software: MAJOR.MINOR.PATCH. Aims to ensure that minor updates are backward compatible and versioning is more predictable.',
+  },
+  {
     name: 'SSR',
     points: 2,
     title: 'Server-Side Rendering',
