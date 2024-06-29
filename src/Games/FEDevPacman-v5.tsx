@@ -42,17 +42,127 @@ const PLAYER = '🧑‍💻'; // Developer emoji
 const EMPTY = ' ';
 
 const pointTypes = [
-  { name: 'UX', points: 10 },
-  { name: 'A11y', points: 9 },
-  { name: 'O(1)', points: 8 },
-  { name: 'TDD', points: 7 },
-  { name: 'KISS', points: 6 },
-  { name: 'YAGNI', points: 5 },
-  { name: 'DRY', points: 4 },
-  { name: 'A/B', points: 3 },
-  { name: 'TS', points: 2 },
-  { name: 'SEO', points: 1 },
+  {
+    name: 'UX',
+    points: 10,
+    title: 'User Experience',
+    description: 'Designing with the user in mind for better usability.',
+  },
+  {
+    name: 'A11y',
+    points: 9,
+    title: 'Accessibility',
+    description:
+      'Ensuring your application is usable by people with disabilities.',
+  },
+  {
+    name: 'O(1)',
+    points: 8,
+    title: 'Constant Time Complexity',
+    description:
+      'Optimizing algorithms to run in constant time or linear time. In Big O notation.',
+  },
+  {
+    name: 'TDD',
+    points: 7,
+    title: 'Test-Driven Development',
+    description: 'Writing tests before code to ensure functionality.',
+  },
+  {
+    name: 'KISS',
+    points: 6,
+    title: 'Keep It Simple, Stupid',
+    description:
+      'Simplifying code to make it more understandable and maintainable.',
+  },
+  {
+    name: 'YAGNI',
+    points: 5,
+    title: "You Aren't Gonna Need It",
+    description: 'Avoiding unnecessary features to keep the codebase clean.',
+  },
+  {
+    name: 'i18n',
+    points: 5,
+    title: 'Internationalization',
+    description:
+      'Designing software to be adaptable to various languages and regions.',
+  },
+  {
+    name: 'DRY',
+    points: 4,
+    title: "Don't Repeat Yourself",
+    description: 'Reducing repetition in code to improve maintainability.',
+  },
+  {
+    name: 'A/B',
+    points: 3,
+    title: 'A/B Testing',
+    description:
+      'Comparing two versions of a webpage or app to see which performs better.',
+  },
+  {
+    name: 'TS',
+    points: 2,
+    title: 'TypeScript',
+    description: 'Using TypeScript for type safety and better code quality.',
+  },
+  {
+    name: 'SEO',
+    points: 1,
+    title: 'Search Engine Optimization',
+    description: 'Improving the visibility of a website in search engines.',
+  },
+  {
+    name: 'CI/CD',
+    points: 7,
+    title: 'Continuous Integration/Continuous Deployment',
+    description:
+      'Automating the integration, testing and deployment of code changes.',
+  },
+  {
+    name: 'SOLID',
+    points: 6,
+    title: 'SOLID Principles',
+    description:
+      'A set of design principles for writing maintainable and scalable code. S = Single responsibility, O = Open-closed, L = Liskov substitution, I = Interface segregation, D = Dependency inversion.',
+  },
+  {
+    name: 'DDD',
+    points: 5,
+    title: 'Domain-Driven Design',
+    description:
+      'Designing software based on the business domain and good understanding of business needs.',
+  },
+  {
+    name: 'BEM',
+    points: 4,
+    title: 'Block Element Modifier',
+    description: 'A methodology for writing clean and maintainable CSS.',
+  },
+  // Are below items a good practices???
+  // {
+  //   name: 'MVC',
+  //   points: 3,
+  //   title: 'Model-View-Controller',
+  //   description: 'A design pattern for separating concerns in an application.',
+  // },
+  {
+    name: 'SSR',
+    points: 2,
+    title: 'Server-Side Rendering',
+    description:
+      'Rendering web pages on the server for better performance and SEO.',
+  },
+  {
+    name: 'SPA',
+    points: 1,
+    title: 'Single Page Application',
+    description:
+      'Building web applications that load a single HTML page and dynamically update as the user interacts with the app.',
+  },
 ].sort((a, b) => b.points - a.points);
+// TODO: save points added to maze in an array to limit the number of occurences of each point type. Add max limit in object?
 
 const bugTypes = [
   { name: '🐛', color: '#FF0000' },
@@ -66,6 +176,8 @@ const bugTypes = [
   { name: 'O(n²)', color: '#FF6666' },
   { name: 'any', color: '#FF9999' },
   { name: 'NaN', color: '#FFCCCC' },
+  { name: 'Legacy', color: '#FF6600' },
+  { name: 'Debt', color: '#993300' },
 ];
 const BUGS_NUMBER = 20;
 
