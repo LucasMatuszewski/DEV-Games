@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+// TODO: Multiple funny code samples, randomly, or/and select to set it (maybe for different programming languages + different set of best practices?)
+// TODO: Add Form to let user generate maze based on any custom code.
 const codeLines = [
   "import React from 'react';",
   "import { useState, useEffect } from 'react';",
@@ -415,6 +417,22 @@ const FEDevPacman = () => {
     setGameOver(false);
   };
 
+  const addTitleToContent = (content: string) => {
+    const pointType = pointTypes.find((pt) => pt.name === content);
+    if (pointType) {
+      return (
+        <span
+          // TODO: create a custom tooltip
+          title={`${pointType.title} - ${pointType.description}`}
+          style={{ cursor: 'help' }}
+        >
+          {content}
+        </span>
+      );
+    }
+    return content;
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-[calc(100vh-50px)] text-white">
       <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
@@ -444,21 +462,21 @@ const FEDevPacman = () => {
                 <div
                   key={`${x}-${y}`}
                   style={{
+                    // TODO: optimize, add classNames instead of CSS code
                     width: CELL_SIZE,
                     height: CELL_SIZE,
-                    backgroundColor: isCode ? '#1e293b' : 'transparent',
+                    // backgroundColor: isCode ? '#1e293b' : 'transparent',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontSize: isCode ? '13px' : '15px',
                     color: isCode ? '#94a3b8' : getCellColor(content),
                     fontWeight: isCode ? 'bold' : 'normal',
-                    // border: content === PLAYER ? '1px solid white' : 'none',
                     borderRadius: '2px',
                     transition: 'all 0.1s ease-in-out',
                   }}
                 >
-                  {content}
+                  {addTitleToContent(content)}
                 </div>
               );
             })
